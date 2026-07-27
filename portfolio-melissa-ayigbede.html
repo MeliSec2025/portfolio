@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mélissa Ayigbede — Analyste Cybersécurité Junior</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --bg-alt: #0E1626;
+    --surface: #121B2E;
+    --surface-hi: #182238;
+    --line: #223047;
+    --text: #E4E9F2;
+    --text-muted: #7C8AA6;
+    --text-dim: #4E5C74;
+    --accent: #4FD1C5;
+    --accent-dim: #2E7A73;
+    --warn: #F2A93B;
+    --crit: #E8607A;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(11,18,32,0.2), var(--bg) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a{ color: var(--accent); text-decoration: none; }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap{ max-width: 920px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* NAV */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(11,18,32,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content: space-between; padding: 14px 24px; }
+  .nav-id{ font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+  .nav-links{ display:flex; gap: 22px; list-style:none; font-family: var(--font-mono); font-size: 13px; }
+  .nav-links a{ color: var(--text-muted); transition: color .15s; }
+  .nav-links a:hover{ color: var(--accent); }
+  .nav-toggle{ display:none; background:none; border:none; color: var(--text); font-size: 22px; cursor:pointer; }
+
+  @media (max-width: 720px){
+    .nav-links{ position:absolute; top:100%; left:0; right:0; background: var(--bg-alt); flex-direction:column; padding: 18px 24px; gap:14px; border-bottom: 1px solid var(--line); display:none; }
+    .nav-links.open{ display:flex; }
+    .nav-toggle{ display:block; }
+  }
+
+  /* HERO */
+  .hero{ padding: 90px 0 70px; }
+  .prompt-line{
+    font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);
+    margin-bottom: 18px; display:flex; align-items:center; gap: 8px;
+  }
+  .prompt-line .cursor{
+    display:inline-block; width: 8px; height: 15px; background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity: 0; } }
+
+  .hero h1{
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .hero .role{
+    font-family: var(--font-mono); color: var(--accent);
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    margin-bottom: 26px;
+  }
+  .hero .role .bracket{ color: var(--text-dim); }
+  .hero p.bio{ max-width: 640px; color: var(--text-muted); font-size: 1.02rem; margin-bottom: 34px; }
+
+  .status-badges{ display:flex; flex-wrap:wrap; gap: 10px; margin-bottom: 36px; }
+  .badge{
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+    border: 1px solid var(--line); background: var(--surface);
+    padding: 6px 12px; border-radius: 4px; display:flex; align-items:center; gap:7px;
+  }
+  .badge .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); }
+
+  .cta-row{ display:flex; flex-wrap:wrap; gap: 12px; }
+  .btn{
+    font-family: var(--font-mono); font-size: 13px; padding: 11px 18px;
+    border-radius: 4px; border: 1px solid var(--line); transition: all .15s;
+  }
+  .btn-primary{ background: var(--accent); color: #06231F; border-color: var(--accent); font-weight: 600; }
+  .btn-primary:hover{ background: #6EDFD4; }
+  .btn-ghost{ color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* SECTION SHARED */
+  section{ padding: 64px 0; border-top: 1px solid var(--line); }
+  .sec-head{ display:flex; align-items: baseline; gap: 14px; margin-bottom: 36px; flex-wrap: wrap; }
+  .sec-cmd{
+    font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .sec-cmd .exec{ color: var(--accent); }
+  .sec-title{ font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; }
+
+  /* SKILLS */
+  .skill-groups{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 22px; }
+  .skill-card{ background: var(--surface); border:1px solid var(--line); border-radius: 8px; padding: 20px 22px; }
+  .skill-card h3{
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
+    color: var(--warn); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .tag-list{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .tag{
+    font-family: var(--font-mono); font-size: 12px; color: var(--text);
+    background: var(--surface-hi); border: 1px solid var(--line);
+    padding: 5px 10px; border-radius: 4px;
+  }
+
+  /* PROJECTS */
+  .project{
+    background: var(--surface); border:1px solid var(--line); border-radius: 8px;
+    padding: 26px 26px; margin-bottom: 20px; position: relative;
+  }
+  .project::before{
+    content:""; position:absolute; left:0; top:18px; bottom:18px; width:3px;
+    background: var(--accent); border-radius: 0 3px 3px 0;
+  }
+  .project-head{ display:flex; justify-content: space-between; align-items:flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+  .project-id{ font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+  .project h3{ font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 4px; }
+  .project-status{
+    font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+    border: 1px solid var(--accent-dim); padding: 3px 9px; border-radius: 20px;
+  }
+  .project p.desc{ color: var(--text-muted); margin-bottom: 14px; }
+
+  /* EXPERIENCE — log timeline */
+  .log{ position: relative; padding-left: 28px; }
+  .log::before{ content:""; position:absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+  .log-entry{ position: relative; padding-bottom: 34px; }
+  .log-entry:last-child{ padding-bottom: 0; }
+  .log-entry::before{
+    content:""; position:absolute; left: -28px; top: 4px; width: 11px; height: 11px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
+  }
+  .log-time{ font-family: var(--font-mono); font-size: 12px; color: var(--warn); margin-bottom: 4px; }
+  .log-entry h3{ font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 2px; }
+  .log-entry .org{ color: var(--text-muted); font-size: 0.92rem; margin-bottom: 12px; font-family: var(--font-mono); }
+  .log-entry ul{ list-style: none; }
+  .log-entry li{ position: relative; padding-left: 18px; margin-bottom: 8px; color: var(--text-muted); font-size: 0.95rem; }
+  .log-entry li::before{ content:"›"; position:absolute; left:0; color: var(--accent); }
+
+  /* EDUCATION */
+  .edu-grid{ display:grid; grid-template-columns: 1.1fr 1fr; gap: 30px; }
+  @media (max-width: 720px){ .edu-grid{ grid-template-columns: 1fr; } }
+  .edu-block h3{ font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--warn); text-transform: uppercase; margin-bottom: 16px; }
+  .edu-item{ margin-bottom: 18px; }
+  .edu-item .deg{ font-weight: 600; font-family: var(--font-display); font-size: 1.02rem; }
+  .edu-item .school{ color: var(--text-muted); font-size: 0.9rem; }
+  .edu-item .yr{ font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+  .mention{ display:inline-block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--accent); border:1px solid var(--accent-dim); padding: 2px 8px; border-radius: 20px; }
+
+  .cert-item{ display:flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 0.92rem; }
+  .cert-item:last-child{ border-bottom: none; }
+  .cert-item .yr{ font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+
+  /* CONTACT / FOOTER */
+  footer{ padding: 70px 0 60px; border-top: 1px solid var(--line); }
+  .contact-box{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 40px 36px; text-align:center;
+  }
+  .contact-box h2{ font-family: var(--font-display); font-size: 1.7rem; margin-bottom: 10px; }
+  .contact-box p{ color: var(--text-muted); margin-bottom: 26px; }
+  .contact-links{ display:flex; flex-wrap:wrap; justify-content:center; gap: 12px; margin-bottom: 26px; }
+  .contact-links a{
+    font-family: var(--font-mono); font-size: 13px; color: var(--text);
+    border: 1px solid var(--line); padding: 10px 16px; border-radius: 6px;
+    transition: all .15s;
+  }
+  .contact-links a:hover{ border-color: var(--accent); color: var(--accent); }
+  .footer-meta{ text-align:center; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="nav-id">MA<span style="color:var(--text-dim)">://</span>portfolio</span>
+    <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#profil">profil</a></li>
+      <li><a href="#competences">competences</a></li>
+      <li><a href="#projets">projets</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#formation">formation</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="profil">
+  <div class="wrap">
+    <div class="prompt-line">melissa@soc:~$ whoami<span class="cursor"></span></div>
+    <h1>Mélissa Ayigbede</h1>
+    <div class="role"><span class="bracket">[</span>Analyste Cybersécurité Junior · SOC Analyst<span class="bracket">]</span></div>
+    <p class="bio">Titulaire d'une Licence Professionnelle en Cybersécurité, Systèmes et Réseaux (Mention Très Bien), passionnée par la sécurité défensive et la protection des infrastructures numériques. Expériences pratiques en supervision, gestion des vulnérabilités, configuration réseau et sécurité de l'IA. Objectif : intégrer un SOC.</p>
+
+    <div class="status-badges">
+      <span class="badge"><span class="dot"></span>Disponible pour opportunités</span>
+      <span class="badge">📍 Abomey-Calavi, Bénin</span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:melissaayigbede@gmail.com">Me contacter</a>
+      <a class="btn btn-ghost" href="https://github.com/MeliSec2025" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/m%C3%A9lissa-ayigbede-95594a334" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </div>
+</header>
+
+<section id="competences">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-cmd">melissa@soc:~$ <span class="exec">./scan_skills.sh</span></span>
+      <h2 class="sec-title">Compétences techniques</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3>Sécurité SOC &amp; Analyse</h3>
+        <div class="tag-list">
+          <span class="tag">Gestion des logs</span>
+          <span class="tag">Analyse de menaces</span>
+          <span class="tag">SIEM · Splunk</span>
+          <span class="tag">Wireshark</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Sécurité réseau &amp; périmétrique</h3>
+        <div class="tag-list">
+          <span class="tag">pfSense</span>
+          <span class="tag">IDS / IPS</span>
+          <span class="tag">VPN</span>
+          <span class="tag">Cisco · VLAN, ACL, OSPF</span>
+          <span class="tag">MikroTik</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Audit &amp; Pentest</h3>
+        <div class="tag-list">
+          <span class="tag">Analyse de vulnérabilités</span>
+          <span class="tag">Python (scripting)</span>
+          <span class="tag">OWASP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Systèmes &amp; bases de données</h3>
+        <div class="tag-list">
+          <span class="tag">Linux · Debian, Ubuntu</span>
+          <span class="tag">Windows Server</span>
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">SQL · MySQL · SQLite</span>
+          <span class="tag">WAMP / XAMPP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Développement web</h3>
+        <div class="tag-list">
+          <span class="tag">PHP</span>
+          <span class="tag">Symfony</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projets">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-cmd">melissa@soc:~$ <span class="exec">ls</span> ./projets</span>
+      <h2 class="sec-title">Projets</h2>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div>
+          <div class="project-id">PROJ-001 · Projet de fin d'études — Innovation &amp; Gouvernance IA</div>
+          <h3>ProxyIA</h3>
+        </div>
+        <span class="project-status">SOUTENU · Mention TB</span>
+      </div>
+      <p class="desc">Conception et mise en œuvre d'une solution locale d'architecture de sécurité permettant d'intercepter, d'auditer et d'anonymiser les flux de données sensibles vers les LLM, pour la protection des données des PME.</p>
+      <div class="tag-list">
+        <span class="tag">Architecture réseau/sécurité</span>
+        <span class="tag">UML</span>
+        <span class="tag">Symfony</span>
+        <span class="tag">PHP</span>
+        <span class="tag">MySQL</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div>
+          <div class="project-id">PROJ-002 · Plateforme e-commerce</div>
+          <h3>MiniBoutique</h3>
+        </div>
+        <span class="project-status">DÉPLOYÉ</span>
+      </div>
+      <p class="desc">Plateforme e-commerce optimisée pour les entrepreneurs, intégrant les services de paiement mobile money locaux.</p>
+      <div class="tag-list">
+        <span class="tag">PHP</span>
+        <span class="tag">Symfony</span>
+        <span class="tag">SQLite / MySQL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-cmd">melissa@soc:~$ <span class="exec">cat</span> experience.log</span>
+      <h2 class="sec-title">Expérience professionnelle</h2>
+    </div>
+
+    <div class="log">
+      <div class="log-entry">
+        <div class="log-time">06/2026 — 08/2026</div>
+        <h3>Développeur Full Stack</h3>
+        <div class="org">Blue Life Tech</div>
+        <ul>
+          <li>Développement et maintenance d'applications web</li>
+          <li>Optimisation des performances des applications et résolution de bugs</li>
+          <li>Mise en place de tests automatisés pour garantir la qualité et la sécurité du code</li>
+        </ul>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-time">02/2026 — 05/2026</div>
+        <h3>Stagiaire en Cybersécurité</h3>
+        <div class="org">Benin Hub Technologie</div>
+        <ul>
+          <li>Administration &amp; sécurisation réseau : configuration d'équipements physiques Cisco (VLANs, routage, segmentation)</li>
+          <li>Sécurité périmétrique : déploiement et configuration du pare-feu pfSense (règles de filtrage, contrôle de trafic)</li>
+          <li>Conception et modélisation logicielle sous UML du projet ProxyIA</li>
+          <li>Gestion et maintenance d'infrastructures physiques (brassage, sertissage de câbles réseau)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="formation">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-cmd">melissa@soc:~$ <span class="exec">cat</span> formation.log</span>
+      <h2 class="sec-title">Formation &amp; certifications</h2>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-block">
+        <h3>Formation académique</h3>
+        <div class="edu-item">
+          <div class="deg">Licence Professionnelle en Cybersécurité, Systèmes et Réseaux</div>
+          <div class="school">Université Les Cours Sonou, Calavi</div>
+          <div class="yr">09/2023 — 06/2026</div>
+          <span class="mention">Mémoire soutenu — Mention Très Bien</span>
+        </div>
+        <div class="edu-item">
+          <div class="deg">Baccalauréat</div>
+          <div class="school">Collège Privé La Prospérité, Calavi</div>
+        </div>
+      </div>
+
+      <div class="edu-block">
+        <h3>Certifications &amp; formations continues</h3>
+        <div class="cert-item">
+          <span>Cybersecurity Defense Analyst Career Path — Cisco Networking Academy (offert par SORACERT)</span>
+          <span class="yr">2026</span>
+        </div>
+        <div class="cert-item">
+          <span>Security Operations, Splunk &amp; Threat Analysis — Cisco Networking Academy</span>
+          <span class="yr">2026</span>
+        </div>
+        <div class="cert-item">
+          <span>Cybersecurity Career Starter Certification (CCSC) — Hack &amp; Fix Academy</span>
+          <span class="yr">2025</span>
+        </div>
+        <div class="cert-item">
+          <span>MOOC Cybersécurité &amp; Sécurité Informatique — Cyberini</span>
+          <span class="yr">2025</span>
+        </div>
+        <div class="cert-item">
+          <span>International CTF Challenge — HKCERT</span>
+          <span class="yr">2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>melissa@soc:~$ ssh melissa@opportunites</h2>
+      <p>Ouverte aux stages, alternances et postes junior en cybersécurité / SOC.</p>
+      <div class="contact-links">
+        <a href="mailto:melissaayigbede@gmail.com">✉ melissaayigbede@gmail.com</a>
+        <a href="tel:+2290146414550">☎ +229 01 46 41 45 50</a>
+        <a href="https://linkedin.com/in/m%C3%A9lissa-ayigbede-95594a334" target="_blank" rel="noopener">in/ LinkedIn</a>
+        <a href="https://github.com/MeliSec2025" target="_blank" rel="noopener">⌘ GitHub</a>
+      </div>
+    </div>
+    <div class="footer-meta">© 2026 Mélissa Ayigbede — Abomey-Calavi, Bénin</div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+
+</body>
+</html>
